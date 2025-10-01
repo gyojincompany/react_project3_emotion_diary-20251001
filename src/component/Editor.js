@@ -27,6 +27,13 @@ const Editor = ({initData, onSubmit}) => {
         });
     }
 
+    const handleChangeContent = (e) => {
+        setState({ //state 객체 내의 content 속성값 변경하기
+            ...state, 
+            content : e.target.value
+        });
+    }
+
     return (
         <div className="Editor">
             <div className="editor_section">
@@ -43,6 +50,13 @@ const Editor = ({initData, onSubmit}) => {
             <div className="editor_section">
                 <h4>오늘의 일기</h4>
                 {/* 일기 입력창 또는 수정창 */}
+                <div className="input_wrapper">
+                    <textarea
+                        placeholder="오늘은 어땠나요?"
+                        value={state.content}
+                        onChange={handleChangeContent}
+                    />
+                </div>
             </div>
             <div className="editor_section">
                 {/* 작성완료 버튼, 취소 버튼 */}
