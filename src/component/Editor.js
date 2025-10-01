@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./Editor.css"
 import { getFormattedDate } from "../util";
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 
 //props initData->입력창 또는 수정창에서 다르게 보여질 입력내용
@@ -34,6 +36,18 @@ const Editor = ({initData, onSubmit}) => {
         });
     }
 
+    const handleSubmit = () => { //작성완료 버튼 이벤트 핸들러
+        onSubmit(state);
+    }
+
+    const navigate = useNavigate();
+
+    //취소버튼 이벤트 핸들러
+    const handleOnGoBack = () => {
+        navigate(-1); //이전 페이지로 이동
+        //window.history.go(-1);
+    }
+
     return (
         <div className="Editor">
             <div className="editor_section">
@@ -58,8 +72,10 @@ const Editor = ({initData, onSubmit}) => {
                     />
                 </div>
             </div>
-            <div className="editor_section">
+            <div className="editor_section bottom_section">
                 {/* 작성완료 버튼, 취소 버튼 */}
+                <Button text={"취소하기"} onClick={handleOnGoBack} />
+                <Button text={"작성 완료"} type={"positive"} onClick={handleSubmit} />
             </div>
         </div>
     );
