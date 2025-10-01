@@ -32,7 +32,7 @@ export const getEmotionImgById = (emotionId) => {
             return emotion3;
         case "4":
             return emotion4;         
-        case "1":
+        case "5":
             return emotion5;     
         default:
             return null;
