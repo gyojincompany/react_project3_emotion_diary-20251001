@@ -38,3 +38,9 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.Editor .emotion_list_wrapper {
+    display: flex;
+    gap: 2%;
+    justify-content: space-around;
+}

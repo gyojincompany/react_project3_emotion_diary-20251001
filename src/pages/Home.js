@@ -18,7 +18,13 @@ const Home = () => {
               leftChild={<Button type={"positive"} text={"긍정 버튼"} onClick={()=>{alert("positive button");}} />}  
               rightChild={<Button type={"negative"} text={"부정 버튼"} onClick={()=>{alert("negative button");}} />}            
             />
-            <Editor onSubmit={onSubmit}/>
+            <Editor initData={
+                {
+                    date:new Date().getTime(),
+                    emotionId:1,
+                    content: "이전에 작성했던 일기"
+                }
+            }  onSubmit={onSubmit} />
           
         </div>
     );
