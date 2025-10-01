@@ -39,3 +39,17 @@ export const getEmotionImgById = (emotionId) => {
     }
 };
 
+export const getFormattedDate = (targetDate) => { //yyyy-mm-dd 포맷 변경 함수
+    let year = targetDate.getFullYear();
+    let month = targetDate.getMonth() + 1; //월 + 1 -> 올바른 월값 출력
+    let date = targetDate.getDate();
+
+    if(month < 10) {
+       month = `0${month}`;
+    }
+    if(date < 10) {
+       date = `0${date}`;
+    }
+
+    return `${year}-${month}-${date}`;
+}
