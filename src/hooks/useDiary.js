@@ -19,7 +19,7 @@ const useDiary = (id) => {
             setDiary(matchDiary);
         } else { //유저가 보내준 일기의 id가 존재하지 않음
             alert("해당 일기가 존재하지 않습니다!");
-            navigate("/");
+            navigate("/", {replace:true});
         }       
 
     },[id, data]);
