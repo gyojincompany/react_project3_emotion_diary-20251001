@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import "./DiaryList.css";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ const sortOptionList = [
 const DiaryList = ({data}) => { //data->Home에서 넘어온 props->년월별로 필터링된 일기들의 배열
     
     const [sortType, setSortType] = useState("latest");
+    const [sortedData, setSortedData] = useState([]); //정렬한 결과가 저장될 일기 배열
+
     const navigate = useNavigate();
 
     const onChangeSortType = (e) => {
@@ -20,6 +22,21 @@ const DiaryList = ({data}) => { //data->Home에서 넘어온 props->년월별로
     const onClickNew = () => {
         navigate("/new"); //new페이지로 이동
     }
+
+    useEffect(()=>{
+        //정렬 함수
+        const compare = (a, b) => { //a->일기객체 id1, b->일기객체 id2
+            if(sortType === "latest") { //날짜의 내림차순
+                return Number(b.date) - Number(a.date); //연산결과->음수 or 양수
+            } else { //"oldest" 날짜의 오름차순
+                return Number(a.date) - Number(b.date);
+            }
+        };
+        const copyList = JSON.parse(JSON.stringify(data)); //깊은 복사->data 복사본 생성
+        //data.sort(compare); //원본 순서가 변경
+        copyList.sort(compare);
+        setSortedData(copyList);
+    }, [data, sortType]);
 
     return (
         <div className="DiaryList">
