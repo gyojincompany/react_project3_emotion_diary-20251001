@@ -4,8 +4,105 @@ import Edit from './pages/Edit';
 import Diary from './pages/Diary';
 import New from './pages/New';
 import { Routes, Route, Link } from 'react-router-dom';
+import { useEffect, useReducer, useRef } from 'react';
+import { type } from '@testing-library/user-event/dist/type';
+
+function reducer(state, action) {
+  //state->기존 일기객체들이 들어있는 배열
+  //[{일기1},{일기2},{일기3}...]
+  switch (action.type) {
+    case "CREATE": {
+      return [action.data, ...state];
+      //기존 일기들이 들어있는 배열의 맨 앞에 새로운 일기객체가 삽입됨
+    }     
+    case "UPDATE": {
+      return state.map((item) => 
+        String(item.id) === String(action.data.id) ? {...action.data} : item
+      );
+      
+    }     
+    case "DELETE": {
+      return state.filter((item) => String(item.id) !== String(action.targetId));
+    }  
+    case "INIT": {
+      return action.data;
+    } 
+    default:
+      return state;
+  }  
+}
 
 function App() {
+
+  const mockData = [
+    {
+      id:"mock1",
+      date: new Date().getTime(),
+      content:"mock1이 쓴 일기",
+      emotionId: 1,
+    },
+    {
+      id:"mock2",
+      date: new Date().getTime(),
+      content:"mock2이 쓴 일기",
+      emotionId: 2,
+    },
+    {
+      id:"mock3",
+      date: new Date().getTime(),
+      content:"mock3이 쓴 일기",
+      emotionId: 3,
+    },
+  ]
+
+  useEffect(()=>{
+    dispatch({
+      type: "INIT",
+      data : mockData
+    });
+  },[]); //의존성 배열을 []로 하면->최초 마운트할때만 1번만 실행
+
+
+  //const [state, setState] = useState();
+  const [data, dispatch] = useReducer(reducer, []);
+  //data->일기(일기객체)들이 들어있는 배열
+  //data -> [{일기1},{일기2},[일기3]]
+  const idRef = useRef(0); //일기의 id 생성 변수 
+
+  const onCreate = (date, content, emotionId) => {
+    dispatch({
+      type: "CREATE",
+      data : {
+        id: idRef.current,
+        date : new Date(date).getTime(),
+        content,
+        emotionId
+      }
+    });
+    idRef.current += 1; //id 중복을 방지하는 id값 1씩 증가
+  };
+
+  const onUpdate = (targetId, date, content, emotionId) => {
+    dispatch({
+      type: "UPDATE",
+      data : {
+        id: targetId, //수정할 일기객체의 id
+        date : new Date(date).getTime(), //수정한 날짜 
+        content, //수정한 일기 내용
+        emotionId //수정한 이미지 선택 번호
+      }
+    });
+  };
+
+  const onDelete = (targetId) => {
+    dispatch(
+      {
+        type:"DELETE",
+        targetId
+      }
+    );
+  }
+
   return (
     <div className="App">
       <div>

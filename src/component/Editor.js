@@ -46,7 +46,7 @@ const Editor = ({initData, onSubmit}) => {
 
     //취소버튼 이벤트 핸들러
     const handleOnGoBack = () => {
-        navigate(-1); //이전 페이지로 이동
+        navigate(-1); //이전 페이지로 이동, (-2)->2단계 이전
         //window.history.go(-1);
     }
 
@@ -58,7 +58,7 @@ const Editor = ({initData, onSubmit}) => {
         });
     }
 
-    useEffect(()=> {
+    useEffect(()=> { //->의존성배열 [initData] 값이 변경되면 리렌더
         //initData 존재 여부 확인->true->initData props 상위 컴포넌트에 전달됨
         //initData가 존재하면 일기 수정, 존재하지 않으면 새 글 쓰기
         //initData이 존재하면 현재 보여지는 내용이 initData의 내용이어야 함
